@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:islamic_dua_app/View/fav_screen.dart';
 import 'package:islamic_dua_app/utils/colors.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class Favourite_Screen extends StatefulWidget {
+  const Favourite_Screen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<Favourite_Screen> createState() => Favourite_eScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class Favourite_eScreenState extends State<Favourite_Screen> {
   TextEditingController searchcontroller = TextEditingController();
 
   final List<String> items = [
@@ -74,59 +73,22 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: secondarycolor,
+        appBar: AppBar(
+          title: Text("Saved Dua's List"),
+          centerTitle: true,
+          backgroundColor: primarycolor,
+          elevation: 2,
+          leading: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
         body: Padding(
-          padding: const EdgeInsets.only(top: 10, right: 3, left: 3),
+          padding: const EdgeInsets.only(right: 3, left: 3),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 4),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 7,
-                      child: TextFormField(
-                        controller: SearchController(),
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          prefixIcon: Icon(
-                            Icons.search_outlined,
-                            color: primarycolor,
-                          ),
-                          hintText: "Search",
-                          hintStyle: TextStyle(color: primarycolor),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              // borderSide: BorderSide(color: secondarycolor),
-                              borderRadius: BorderRadius.circular(40)),
-                          focusedBorder: OutlineInputBorder(
-                              // borderSide: BorderSide.none,
-                              borderSide: BorderSide(color: primarycolor),
-                              borderRadius: BorderRadius.circular(40)),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                        flex: 1,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Favourite_Screen()));
-                          },
-                          child: Icon(
-                            Icons.favorite,
-                            size: 30,
-                            color: primarycolor,
-                          ),
-                        ))
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
               Expanded(
                 child: GridView.builder(
                   itemCount: items.length,
