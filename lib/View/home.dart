@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:islamic_dua_app/View/fav_screen.dart';
+import 'package:islamic_dua_app/provider/fav_provider.dart';
 import 'package:islamic_dua_app/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -206,26 +208,30 @@ class _HomeScreenState extends State<HomeScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 4),
                                 child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: InkWell(
-                                      onTap: () {
-                                        if (selecteditem.contains(index)) {
-                                          selecteditem.remove(index);
-                                        } else {
-                                          selecteditem.add(index);
-                                        }
-                                        setState(() {});
+                                    alignment: Alignment.centerRight,
+                                    child: Consumer<FavouriteItemprovider>(
+                                      builder: (context, value, child) {
+                                        return InkWell(
+                                            onTap: () {
+                                              print("object");
+                                              if (value.selecteditems
+                                                  .contains(index)) {
+                                                value.removeitems(index);
+                                              } else {
+                                                value.additems(index);
+                                              }
+                                            },
+                                            child: value.selecteditems.contains(index)
+                                                ? const Icon(
+                                                    Icons.favorite,
+                                                    color: Color(0xff1c6758),
+                                                  )
+                                                : const Icon(
+                                                    Icons.favorite_border,
+                                                    color: Color(0xff1c6758),
+                                                  ));
                                       },
-                                      child: selecteditem.contains(index)
-                                          ? const Icon(
-                                              Icons.favorite,
-                                              color: Color(0xff1c6758),
-                                            )
-                                          : const Icon(
-                                              Icons.favorite_border,
-                                              color: Color(0xff1c6758),
-                                            )),
-                                ),
+                                    )),
                               ),
                               Image.asset(
                                 "images/pray.png",

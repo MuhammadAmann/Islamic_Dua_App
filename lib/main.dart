@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:islamic_dua_app/View/home.dart';
 import 'package:islamic_dua_app/View/splash_screen.dart';
+import 'package:islamic_dua_app/provider/fav_provider.dart';
 import 'package:islamic_dua_app/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +14,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+    return ChangeNotifierProvider(
+      create: (context) => FavouriteItemprovider(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
+      ),
     );
   }
 }

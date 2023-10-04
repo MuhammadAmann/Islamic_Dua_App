@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:islamic_dua_app/provider/fav_provider.dart';
 import 'package:islamic_dua_app/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class Favourite_Screen extends StatefulWidget {
   const Favourite_Screen({super.key});
@@ -66,7 +68,7 @@ class Favourite_eScreenState extends State<Favourite_Screen> {
 
     // Add more items as needed
   ];
-  List<int> selecteditem = [];
+  // List<int> selecteditem = [];
   @override
   Widget build(BuildContext context) {
     print("object build");
@@ -78,9 +80,14 @@ class Favourite_eScreenState extends State<Favourite_Screen> {
           centerTitle: true,
           backgroundColor: primarycolor,
           elevation: 2,
-          leading: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
           ),
         ),
         body: Padding(
@@ -166,29 +173,34 @@ class Favourite_eScreenState extends State<Favourite_Screen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right: 4),
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: InkWell(
-                                      onTap: () {
-                                        if (selecteditem.contains(index)) {
-                                          selecteditem.remove(index);
-                                        } else {
-                                          selecteditem.add(index);
-                                        }
-                                        setState(() {});
+                                  padding: const EdgeInsets.only(right: 4),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Consumer<FavouriteItemprovider>(
+                                      builder: (context, value, child) {
+                                        return InkWell(
+                                            onTap: () {
+                                              print("object");
+                                              if (value.selecteditems
+                                                  .contains(index)) {
+                                                value.removeitems(index);
+                                              } else {
+                                                value.additems(index);
+                                              }
+                                            },
+                                            child: value.selecteditems
+                                                    .contains(index)
+                                                ? Icon(
+                                                    Icons.favorite,
+                                                    color: Color(0xff1c6758),
+                                                  )
+                                                : Icon(
+                                                    Icons.favorite_border,
+                                                    color: Color(0xff1c6758),
+                                                  ));
                                       },
-                                      child: selecteditem.contains(index)
-                                          ? const Icon(
-                                              Icons.favorite,
-                                              color: Color(0xff1c6758),
-                                            )
-                                          : const Icon(
-                                              Icons.favorite_border,
-                                              color: Color(0xff1c6758),
-                                            )),
-                                ),
-                              ),
+                                    ),
+                                  )),
                               Image.asset(
                                 "images/pray.png",
                                 height: 50,
