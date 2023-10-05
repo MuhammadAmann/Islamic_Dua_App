@@ -4,7 +4,7 @@ import 'package:islamic_dua_app/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class Favourite_Screen extends StatefulWidget {
-  const Favourite_Screen({super.key});
+  Favourite_Screen({super.key});
 
   @override
   State<Favourite_Screen> createState() => Favourite_eScreenState();
@@ -12,7 +12,6 @@ class Favourite_Screen extends StatefulWidget {
 
 class Favourite_eScreenState extends State<Favourite_Screen> {
   TextEditingController searchcontroller = TextEditingController();
-
   final List<String> items = [
     'Angry',
     'Anxious',
@@ -68,10 +67,19 @@ class Favourite_eScreenState extends State<Favourite_Screen> {
 
     // Add more items as needed
   ];
-  // List<int> selecteditem = [];
+
+//selected
+  List<String> selectedDuas = [];
+  List<String> selectedItems = [];
+
   @override
   Widget build(BuildContext context) {
+    final Favprovider = Provider.of<FavouriteItemprovider>(context);
     print("object build");
+    selectedDuas =
+        Favprovider.selecteditems.map((index) => duas[index]).toList();
+    selectedItems =
+        Favprovider.selecteditems.map((index) => items[index]).toList();
     return SafeArea(
       child: Scaffold(
         backgroundColor: secondarycolor,
@@ -96,130 +104,124 @@ class Favourite_eScreenState extends State<Favourite_Screen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: GridView.builder(
-                  itemCount: items.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(
-                          top: 5, left: 4, right: 4, bottom: 5),
-                      child: InkWell(
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SizedBox(
-                                child: AlertDialog(
-                                  title: Center(
-                                    child: Text(
-                                      items[index].toString(),
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: primarycolor,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  content: Text(
-                                    duas[index].toString(),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  actions: [
-                                    Center(
-                                        child: InkWell(
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        height: 40,
-                                        width: 80,
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            color: secondarycolor,
-                                            borderRadius:
-                                                BorderRadius.circular(6)),
-                                        child: Center(
-                                          child: Text(
-                                            "Close",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: primarycolor),
-                                          ),
+              Consumer<FavouriteItemprovider>(
+                builder: (context, value, child) {
+                  return Expanded(
+                    child: GridView.builder(
+                      itemCount: value.selecteditems.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              top: 5, left: 4, right: 4, bottom: 5),
+                          child: InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return SizedBox(
+                                    child: AlertDialog(
+                                      title: Center(
+                                        child: Text(
+                                          selectedItems[index].toString(),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: primarycolor,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ),
-                                    ))
-                                  ],
-                                ),
+                                      content: Text(
+                                        selectedDuas[index].toString(),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      actions: [
+                                        Center(
+                                            child: InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            width: 80,
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: secondarycolor,
+                                                borderRadius:
+                                                    BorderRadius.circular(6)),
+                                            child: Center(
+                                              child: Text(
+                                                "Close",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: primarycolor),
+                                              ),
+                                            ),
+                                          ),
+                                        ))
+                                      ],
+                                    ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: secondarycolor.withOpacity(.9)),
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: primarycolor,
-                                    spreadRadius: .5,
-                                    blurRadius: 1,
-                                    offset: const Offset(1, 1))
-                              ]),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.only(right: 4),
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Consumer<FavouriteItemprovider>(
-                                      builder: (context, value, child) {
-                                        return InkWell(
-                                            onTap: () {
-                                              print("object");
-                                              if (value.selecteditems
-                                                  .contains(index)) {
-                                                value.removeitems(index);
-                                              } else {
-                                                value.additems(index);
-                                              }
-                                            },
-                                            child: value.selecteditems
-                                                    .contains(index)
-                                                ? Icon(
-                                                    Icons.favorite,
-                                                    color: Color(0xff1c6758),
-                                                  )
-                                                : Icon(
-                                                    Icons.favorite_border,
-                                                    color: Color(0xff1c6758),
-                                                  ));
-                                      },
-                                    ),
-                                  )),
-                              Image.asset(
-                                "images/pray.png",
-                                height: 50,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: secondarycolor.withOpacity(.9)),
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: primarycolor,
+                                        spreadRadius: .5,
+                                        blurRadius: 1,
+                                        offset: const Offset(1, 1))
+                                  ]),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.only(right: 4),
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Consumer<FavouriteItemprovider>(
+                                          builder: (context, value, child) {
+                                            return InkWell(
+                                                onTap: () {
+                                                  // print("object");
+                                                  value.removeitems(index);
+                                                },
+                                                child: Icon(
+                                                  Icons.favorite,
+                                                  color: Color(0xff1c6758),
+                                                ));
+                                          },
+                                        ),
+                                      )),
+                                  Image.asset(
+                                    "images/pray.png",
+                                    height: 50,
+                                  ),
+                                  // SizedBox(height: 8),
+                                  Text(
+                                    selectedItems[index].toString(),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: primarycolor,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
                               ),
-                              // SizedBox(height: 8),
-                              Text(
-                                items[index].toString(),
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: primarycolor,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                        );
+                      },
+                    ),
+                  );
+                },
               )
             ],
           ),
