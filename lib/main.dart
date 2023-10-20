@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       create: (context) => FavouriteItemprovider(),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomeScreen(),
+        home: Splash_Screen(),
       ),
     );
   }

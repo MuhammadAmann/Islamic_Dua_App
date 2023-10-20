@@ -72,7 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
   List<int> selecteditem = [];
   @override
   Widget build(BuildContext context) {
-    print("object build");
     return SafeArea(
       child: Scaffold(
         backgroundColor: secondarycolor,
@@ -215,6 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(right: 4),
@@ -225,7 +225,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             builder: (context, value, child) {
                                               return InkWell(
                                                   onTap: () {
-                                                    print("object");
                                                     if (value.selecteditems
                                                         .contains(index)) {
                                                       value.removeitems(index);
@@ -250,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     Image.asset(
                                       "images/pray.png",
-                                      height: 50,
+                                      height: 60,
                                     ),
                                     // SizedBox(height: 8),
                                     Text(
@@ -347,7 +346,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             builder: (context, value, child) {
                                               return InkWell(
                                                   onTap: () {
-                                                    print("object");
                                                     if (value.selecteditems
                                                         .contains(index)) {
                                                       value.removeitems(index);
@@ -372,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     Image.asset(
                                       "images/pray.png",
-                                      height: 50,
+                                      height: 60,
                                     ),
                                     // SizedBox(height: 8),
                                     Text(
@@ -388,7 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         } else {
-                          return Container();
+                          return Text("Not found");
                         }
                       },
                     ),
